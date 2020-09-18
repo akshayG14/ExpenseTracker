@@ -33,6 +33,12 @@ function addTransaction(e) {
   }
 }
 
+// Remove Transaction by ID
+function removeTransaction(id) {
+  transactions = transactions.filter(transaction => transaction.id !== id);
+  initializer();
+}
+
 // Generate random ID
 function generateRandomID() {
   return Math.floor(Math.random() * 100000);
@@ -45,7 +51,7 @@ function addTransactionDOM(transaction) {
 
   // Add class based on value
   item.classList.add(sign === '-' ? 'minus' : 'plus');
-  item.innerHTML = `${transaction.text}<span>${sign}$${Math.abs(transaction.amount)}</span><button class="delete-btn">x</button>`;
+  item.innerHTML = `${transaction.text}<span>${sign}$${Math.abs(transaction.amount)}</span><button class="delete-btn" onclick="removeTransaction(${transaction.id})">x</button>`;
 
   list.appendChild(item);
 }
@@ -71,8 +77,9 @@ function updateAmounts() {
 form.addEventListener('submit', addTransaction);
 
 // Init app
-(function () {
+function initializer() {
   list.innerHTML = '';
   transactions.forEach(addTransactionDOM);
   updateAmounts();
-})();
+}
+initializer();
