@@ -11,6 +11,33 @@ let transactions = [
   { id: 2, text: 'Rent', amount: -50 }
 ];
 
+// Event Listener: Add transaction
+function addTransaction(e) {
+  e.preventDefault();
+
+  if (text.value.trim() === '' || amount.value.trim() === '') {
+    alert('Please add both text and amount');
+  } else {
+    const transaction = {
+      id: generateRandomID(),
+      text: text.value,
+      amount: +amount.value
+    }
+
+    transactions.push(transaction);
+    addTransactionDOM(transaction);
+    updateAmounts();
+
+    text.value = '';
+    amount.value = '';
+  }
+}
+
+// Generate random ID
+function generateRandomID() {
+  return Math.floor(Math.random() * 100000);
+}
+
 // Add transactions to DOM list
 function addTransactionDOM(transaction) {
   const sign = transaction.amount < 0 ? '-' : '+';
@@ -40,6 +67,8 @@ function updateAmounts() {
   moneyPlus.innerText = `$${income}`;
   moneyMinus.innerText = `$${expense}`;
 }
+
+form.addEventListener('submit', addTransaction);
 
 // Init app
 (function () {
